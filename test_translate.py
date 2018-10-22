@@ -31,16 +31,6 @@ def test_long_valids():
     assert t('coffee tastes good') == 'vadoasusmoma pikishnomosh bavdodepo'
 
 
-def test_invalid():
-    """Test invalid inputs."""
-    fail = 'Try again. Valid inputs are letters, spaces, numbers and these' \
-        ' special characters: . , - _ ? ! ( ) :'
-    assert t(1) == fail
-    assert t('@') == fail
-    assert t('') == fail
-    assert t() == fail
-
-
 def test_letters():
     """Testing of most possible combinations."""
     assert t('aaa bbb ccc ddd eee fff ggg hhh iii jjj kkk lll mmm nnn ooo'
@@ -77,3 +67,11 @@ def test_big_numbers():
         ' kibopo boonbemopith'
     assert t('-127') == 'beonbonsh dobomo nbopochmopo kibopo pinnmobonoth' \
         '-shmoumabo'
+
+def test_randoms():
+    """Testing that a whole bunch of strings work and don't fail."""
+    for i in range(1000):
+        test_string = ''.join(random.choice(
+            string.ascii_letters + string.digits + string.punctuation + ' '
+            ) for _ in range(1000))
+        assert t(test_string) != 'Invalid input.'
