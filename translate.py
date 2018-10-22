@@ -1,12 +1,14 @@
 """This file is used for the logic of the translation."""
 
+import sys
 import string
 import re
 from num2words import num2words  # used for accurately translating numbers
 
 
-def change(new_input):
+def change(test=None):
     """Translate the string."""
+    message = ''
     new = ''  # final translation
     extras = 'efmnoprt'  # multi instance cases
     valid_non_letters = f'{string.punctuation} '
@@ -80,11 +82,13 @@ def change(new_input):
         },
     }
 
-    if new_input:
-        # the extra space here is for the index handling assignment
-        message = new_input.lower() + ' '
+    if test:
+            message = test.lower()
+            message += ' '
     else:
-        return fail
+        for item in sys.argv[1:]:
+            message += item.lower()
+            message += ' '
 
     for _ in range(len(message) - 1):
         if message[i] in change_cases.keys():  # if letter
@@ -183,3 +187,7 @@ def is_number(message, i):
     check_four = bool(message[i] == '-' and message[i + 1] == '.')
     check_five = bool(check_four and message[i + 2] in string.digits)
     return check_two or check_three or check_five
+
+
+if __name__ == '__main__':
+    print(change())
